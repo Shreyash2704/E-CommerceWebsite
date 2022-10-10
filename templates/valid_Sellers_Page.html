@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Hello seller {{ User }}
+	<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="https://th.bing.com/th/id/OIP.12iaF3jI5hTR-FYnJEGkmgHaHa?w=187&h=187&c=7&o=5&dpr=1.25&pid=1.7" alt="" width="30" height="24" class="d-inline-block align-top">
+        E-MART
+      </a>
+    </div>
+  </nav>
+
+  <div  class="mt-2 container">
+    <nav class="navbar navbar-expand-lg navbar-light mb-3 bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">{{FirstName}} {{LastName}}</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/home">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/purchase">Purchase</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/seller">Seller</a>
+              </li>
+			  <li class="nav-item">
+                <a class="nav-link" href="\logout">logout</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	  <div class="bg-light">
+	 <h1>Add New Crate:</h1>
+	 <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Add Crates
+      </button>
+	  </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Seller Info:</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+	  <form action="/add_product" method="POST" enctype="multipart/form-data">
+      <div class="modal-body">
+        
+          <div class="form-floating mb-3">
+              <input type="text" name="product_name" class="form-control" id="floatingPassword" placeholder="">
+              <label for="floatingPassword">Product_Name</label>
+          </div>
+		  <div class="form-floating mb-3">
+              <input type="text" name="price" class="form-control" id="floatingInput" placeholder="">
+              <label for="floatingInput">Price Per Quintal</label>
+          </div>
+          <div class="form-floating mb-3">
+              <input type="text" name="quantity_left" class="form-control" id="floatingPassword" placeholder="">
+              <label for="floatingPassword">Total Quantity Left</label>
+          </div>
+		  <div class="form-floating mb-3">
+		      <p>Upload img</p>
+              <input type="file" name="img" class="" id="img" placeholder="">
+              
+          </div>
+		  
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">SUBMIT</button>
+      </div>
+	  </form>
+    </div>
+  </div>
+</div>
+<!-- Modal end-->
+
+<h3 class="mt-2">Your Crates</h3>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-1 g-4">
+{% for product in Product_info %}
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-body">
+	  
+        <h5 class="card-title bg-light">Crates</h5><hr>
+		<img class="img-fluid" alt="100%x280" src="data:;base64,{{product.product_img }}" />
+        <p class="bg-light">Product_Name : {{product.product_name}}</p>
+		<p  class="bg-light">Product_Price : {{product.product_price}}</p>
+		<p  class="bg-light">Product Quantity Left : {{product.product_quantity}}</p>
+		<a href="#" id="edit_data" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Edit</a>
+		
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">Last updated 3 mins ago</small>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+	
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Info:</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+	  <form action="/edit" method="POST">
+      <div class="modal-body">
+        
+          <div class="form-floating mb-3">
+              <input type="text" id="p_name" name="product_name" class="form-control" id="floatingPassword" placeholder="">
+              <label for="floatingPassword">Product_Name</label>
+          </div>
+		  <div class="form-floating mb-3">
+              <input type="text" name="price" id="p_price" class="form-control" id="floatingInput" placeholder="">
+              <label for="floatingInput">Price Per Quintal</label>
+          </div>
+          <div class="form-floating mb-3">
+              <input type="text" name="quantity_left" id="p_quantity" class="form-control" id="floatingPassword" placeholder="">
+              <label for="floatingPassword">Total Quantity Left</label>
+          </div>
+		  
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">SUBMIT</button>
+      </div>
+	  </form>
+    </div>
+  </div>
+</div>
+<!-- Modal end-->
+
+
+
+</div>
+<script>
+$(document).ready(function(){
+   $("edit_data").click(function(){
+      $("p_name").val() = $("P_name").val();
+	  $("p_price").val() = $("P_price").val();
+	  $("p_quantity").val() = $("P_quantity").val();
+   })
+})
+
+</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+</body>
+</html>
